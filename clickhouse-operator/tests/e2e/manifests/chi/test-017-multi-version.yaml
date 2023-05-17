@@ -1,0 +1,35 @@
+apiVersion: clickhouse.altinity.com/v1
+kind: ClickHouseInstallation
+metadata:
+  name: test-017-multi-version
+spec:
+  templates:
+    podTemplates:
+    - name: v22.3
+      spec:
+        containers:
+        - name: clickhouse-pod
+          image: clickhouse/clickhouse-server:21.8
+    - name: v22.8
+      spec:
+        containers:
+        - name: clickhouse-pod
+          image: clickhouse/clickhouse-server:22.3
+  configuration:
+    clusters:
+    - name: default
+      layout:
+        shards:
+         - templates:
+             podTemplate: v22.3
+         - templates:
+             podTemplate: v22.8
+    files:
+      users.d/remove_database_ordinary.xml: |
+        <yandex>
+          <profiles>
+             <default>
+                <default_database_engine remove="1"/>
+             </default>
+          </profiles>
+        </yandex>

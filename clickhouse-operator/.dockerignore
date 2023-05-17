@@ -1,0 +1,10 @@
+docs/
+.vagrant/
+.idea/
+tests/
+hack/
+*.log
+./tests/image/cache/
+.devspace/
+devspace.yaml
+Vagrantfile
